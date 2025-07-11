@@ -1,179 +1,139 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recovery Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>Recovery Wallet</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      box-sizing: border-box;
-    }
     body {
-      background: #e9fdf6;
-      color: #000;
-      transition: background 0.3s;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f0f0f;
+      color: white;
     }
-    .container {
-      max-width: 430px;
-      margin: auto;
-      padding: 20px;
-    }
-    .header {
-      background: #e3fff3;
-      border-radius: 12px;
-      padding: 16px;
+    .hidden { display: none; }
+    .centered {
       display: flex;
       flex-direction: column;
-      align-items: start;
-      margin-bottom: 20px;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
     }
-    .header h2 {
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-    .header small {
-      color: gray;
-    }
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .top-bar div {
-      font-weight: 600;
-    }
-    .wallet-box {
-      background: #10d8a1;
-      border-radius: 12px;
-      padding: 20px;
-      color: white;
-      margin-bottom: 16px;
-    }
-    .wallet-box .balance-row {
-      display: flex;
-      justify-content: space-between;
-    }
-    .button-row {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-    }
-    button {
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-    .btn-light {
-      background: #fff;
-      color: #000;
-    }
-    .btn-dark {
-      background: #000;
-      color: #fff;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .stat-box {
-      background: white;
-      border-radius: 10px;
+    .login-input {
+      font-size: 1.2rem;
       padding: 10px;
+      margin-top: 10px;
+      width: 120px;
       text-align: center;
     }
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #fff;
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 0;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    .btn {
+      background-color: #22c55e;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
     }
-    .bottom-nav div {
-      text-align: center;
+    .loader-text {
+      font-size: 1.2rem;
+      margin-top: 1rem;
     }
-    .dark-mode body {
-      background: #111;
-      color: #eee;
+    .dashboard {
+      background: url('https://i.imgur.com/XoVbI8O.jpeg') no-repeat center center;
+      background-size: cover;
+      min-height: 100vh;
+      padding: 1rem;
+      color: white;
     }
-    .dark-mode .wallet-box {
-      background: #0f7259;
+    .banner {
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
+      margin: 1rem 0;
+      border-radius: 10px;
+      font-weight: bold;
     }
-    .dark-mode .stat-box {
-      background: #222;
+    .section {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem 0;
     }
-    .dark-mode .bottom-nav {
-      background: #111;
+    .mode-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #333;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="top-bar">
-      <div>limebike9.com</div>
-      <button onclick="toggleMode()">Toggle Mode</button>
+  <div id="login" class="centered">
+    <h2>🔐 Enter 4-Digit Password</h2>
+    <input type="password" id="password" maxlength="4" class="login-input" placeholder="****" />
+    <button class="btn" onclick="checkPassword()">Unlock</button>
+  </div>
+
+  <div id="loading" class="centered hidden">
+    <img src="https://i.gifer.com/ZZ5H.gif" width="80" height="80" />
+    <div class="loader-text">Connecting to blockchain...</div>
+  </div>
+
+  <div id="dashboard" class="dashboard hidden">
+    <button class="mode-toggle" onclick="toggleMode()">🌓 Toggle Mode</button>
+    <img src="https://i.imgur.com/Yowk6lf.png" width="130" alt="Logo" style="margin-bottom: 1rem" />
+    <h1>Wallet Recovery Panel</h1>
+    <div class="banner">🛠 Recovery in progress: <strong>$12,000</strong> being processed...</div>
+
+    <div class="section">
+      <h3>🧰 Tools for Recovery:</h3>
+      <ul>
+        <li>• SmartChain Tracker</li>
+        <li>• Kraken TX Monitor</li>
+        <li>• LimeSite Breach Exploit</li>
+        <li>• Tracer v2.1 Active</li>
+        <li>• Transaction Emulator Tool</li>
+      </ul>
     </div>
-    <div class="header">
-      <h2>Giselle2k15@gmail.com</h2>
-      <small>Invitation code: 2441283</small>
+
+    <div class="section">
+      <h3>💬 Contact Email:</h3>
+      <p style="font-size: 1.1rem">giselle2k15@gmail.com</p>
     </div>
-    <div class="wallet-box">
-      <div class="balance-row">
-        <div>
-          <div>USD7250.70</div>
-          <small>Income</small>
-        </div>
-        <div>
-          <div>USD4.43</div>
-          <small>Funds</small>
-        </div>
-      </div>
-      <div class="button-row">
-        <button class="btn-light">top up</button>
-        <button class="btn-dark">withdraw</button>
-      </div>
-    </div>
-    <div class="stats">
-      <div class="stat-box">
-        <div>0</div>
-        <small>Today's earnings</small>
-      </div>
-      <div class="stat-box">
-        <div>0</div>
-        <small>Earnings this month</small>
-      </div>
-      <div class="stat-box">
-        <div>0</div>
-        <small>Revenue last month</small>
-      </div>
-      <div class="stat-box">
-        <div>16542.39</div>
-        <small>Total revenue</small>
-      </div>
-    </div>
-    <div class="button-row">
-      <button class="btn-light" style="width: 48%;">Invest for others</button>
-      <button class="btn-dark" style="width: 48%;">Wheel of Fortune</button>
-    </div>
-    <br /><br />
-  </div>  <div class="bottom-nav">
-    <div>🏠</div>
-    <div>📋</div>
-    <div>✅</div>
-    <div>🛠️</div>
-    <div>📍</div>
-  </div>  <script>
-    function toggleMode() {
-      document.body.classList.toggle('dark-mode');
+  </div>
+
+  <script>
+    const loginDiv = document.getElementById('login');
+    const loadingDiv = document.getElementById('loading');
+    const dashboardDiv = document.getElementById('dashboard');
+
+    function checkPassword() {
+      const pass = document.getElementById('password').value;
+      if (pass === "9260") {
+        loginDiv.classList.add('hidden');
+        loadingDiv.classList.remove('hidden');
+        setTimeout(() => {
+          loadingDiv.classList.add('hidden');
+          dashboardDiv.classList.remove('hidden');
+        }, 3000);
+      } else {
+        alert("Incorrect Password");
+      }
     }
-  </script></body>
+
+    function toggleMode() {
+      const body = document.body;
+      const isDark = body.style.backgroundColor === 'white';
+      body.style.backgroundColor = isDark ? '#0f0f0f' : 'white';
+      body.style.color = isDark ? 'white' : 'black';
+    }
+  </script>
+</body>
 </html>
