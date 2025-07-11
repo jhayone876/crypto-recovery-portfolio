@@ -1,112 +1,134 @@
-<!-- index.html --><!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recovery Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recovery Tool - Access Panel</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #121212;
-      color: #fff;
       margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 500px;
-      margin: 60px auto;
-      background: #1e1e1e;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-    }
-    h2 {
-      text-align: center;
-    }
-    input[type="password"], input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 4px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      background: #28a745;
-      border: none;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    #status {
-      margin-top: 20px;
-      background: #222;
-      padding: 15px;
-      border-radius: 5px;
-      font-family: monospace;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      transition: background 0.3s, color 0.3s;
     }
     .light-mode {
-      background: #f4f4f4;
-      color: #000;
+      background-color: #f4f4f4;
+      color: #111;
+    }
+    .container {
+      max-width: 400px;
+      margin: 10vh auto;
+      padding: 2rem;
+      background-color: #161b22;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #0005;
     }
     .light-mode .container {
-      background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      background-color: #fff;
+    }
+    input, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+    input {
+      background-color: #21262d;
+      color: #c9d1d9;
+    }
+    .light-mode input {
+      background-color: #eee;
+      color: #000;
+    }
+    button {
+      background-color: #2ea043;
+      color: white;
+      cursor: pointer;
+    }
+    #dashboard {
+      display: none;
+    }
+    .toggle-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      color: inherit;
+      border: 1px solid currentColor;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <div class="container" id="login-screen">
-    <h2>Enter Admin Password</h2>
-    <input type="password" id="adminPass" placeholder="Enter 4-digit password" maxlength="4" />
-    <button onclick="verifyPassword()">Unlock</button>
-    <button onclick="toggleTheme()">Toggle Dark/Light</button>
-  </div>  <div class="container" id="dashboard" style="display:none">
-    <h2>Recovery Dashboard</h2>
-    <input type="email" id="userEmail" placeholder="Victim Email" />
-    <button onclick="startRecovery()">Start Recovery</button>
-    <div id="status">Waiting for recovery action...</div>
-  </div>  <script>
-    const correctPassword = "9260";
-    const loginScreen = document.getElementById("login-screen");
-    const dashboard = document.getElementById("dashboard");
 
-    function verifyPassword() {
-      const pass = document.getElementById("adminPass").value;
-      if (pass === correctPassword) {
-        loginScreen.style.display = "none";
-        dashboard.style.display = "block";
-      } else {
-        alert("Incorrect password");
-      }
+<button class="toggle-btn" onclick="toggleMode()">☀️/🌙</button>
+
+<div class="container" id="password-screen">
+  <h2>🔐 Enter Access Code</h2>
+  <input type="password" id="passcode" placeholder="Enter 4-digit code" maxlength="4" />
+  <button onclick="checkPassword()">Unlock</button>
+</div>
+
+<div class="container" id="recovery-screen" style="display:none;">
+  <h2>🛠 Recovery Portal</h2>
+  <input type="email" id="email" placeholder="Enter victim email" />
+  <button onclick="startRecovery()">Recover</button>
+</div>
+
+<div class="container" id="loading-screen" style="display:none;">
+  <h2>🔄 Connecting to blockchain...</h2>
+</div>
+
+<div class="container" id="dashboard">
+  <h2>✅ Access Granted</h2>
+  <p><strong>Wallet Balance:</strong> <span style="color:lime;">$12,000</span></p>
+  <p>🔍 Scam Site Access: <span style="color:orange;">limebike9.com</span></p>
+  <p>📥 Recovery in Progress...</p>
+  <ul>
+    <li>🧰 Tracing deposits...</li>
+    <li>💻 Cracking backend auth...</li>
+    <li>🛡 Smart contract analysis...</li>
+    <li>📤 Preparing refund routes...</li>
+  </ul>
+</div>
+
+<script>
+  function checkPassword() {
+    const code = document.getElementById('passcode').value;
+    if (code === '9260') {
+      document.getElementById('password-screen').style.display = 'none';
+      document.getElementById('recovery-screen').style.display = 'block';
+    } else {
+      alert('Incorrect passcode');
+    }
+  }
+
+  function startRecovery() {
+    const email = document.getElementById('email').value;
+    if (!email.includes('@')) {
+      alert('Enter a valid email');
+      return;
     }
 
-    function startRecovery() {
-      const email = document.getElementById("userEmail").value;
-      const status = document.getElementById("status");
-      status.innerText = "[+] Connecting to Blockchain...";
+    document.getElementById('recovery-screen').style.display = 'none';
+    document.getElementById('loading-screen').style.display = 'block';
 
-      fetch("https://recovery-backend.vercel.app/recover", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-      })
-      .then(res => res.json())
-      .then(data => {
-        let output = "";
-        data.logs.forEach((line, i) => {
-          setTimeout(() => {
-            output += line + "\n";
-            status.innerText = output;
-          }, i * 1000);
-        });
-      });
-    }
+    // Simulate loading for 4 seconds
+    setTimeout(() => {
+      document.getElementById('loading-screen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+    }, 4000);
+  }
 
-    function toggleTheme() {
-      document.body.classList.toggle("light-mode");
-    }
-  </script></body>
+  function toggleMode() {
+    document.body.classList.toggle('light-mode');
+  }
+</script>
+
+</body>
 </html>
