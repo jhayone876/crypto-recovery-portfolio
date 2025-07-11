@@ -47,7 +47,9 @@
     }
     .amount {
       font-size: 1.6rem;
+      font-weight: bold;
       color: #00ffb2;
+      text-shadow: 0 0 5px #00ffb2, 0 0 10px #00ffb2, 0 0 20px #00ffb2;
       animation: animateAmount 2s ease-out;
     }
     @keyframes animateAmount {
@@ -77,6 +79,9 @@
     ul li {
       margin-bottom: 0.4rem;
     }
+    .animated-value {
+      display: inline-block;
+    }
   </style>
 </head>
 <body class="dark">
@@ -102,8 +107,8 @@
       <ul>
         <li><strong>Funds:</strong> Top up / Withdraw</li>
         <li><strong>Today's earnings:</strong> 0</li>
-        <li><strong>Earnings this month:</strong> 16542.39</li>
-        <li><strong>Total revenue:</strong> 16542.39</li>
+        <li><strong>Earnings this month:</strong> <span id="earnings" class="amount animated-value">$0</span></li>
+        <li><strong>Total revenue:</strong> <span id="revenue" class="amount animated-value">$0</span></li>
         <li>Invest for others</li>
         <li>Wheel of Fortune</li>
         <li>Deposit and withdrawal records</li>
@@ -141,6 +146,8 @@
     window.onload = function () {
       animateValue("usdBalance", 0, 7250.70, 2000);
       animateValue("income", 0, 4.43, 2000);
+      animateValue("earnings", 0, 16542.39, 2000);
+      animateValue("revenue", 0, 16542.39, 2000);
     }
   </script>
 </body>
