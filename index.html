@@ -1,134 +1,179 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Recovery Tool - Access Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recovery Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0d1117;
-      color: #c9d1d9;
-      transition: background 0.3s, color 0.3s;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
     }
-    .light-mode {
-      background-color: #f4f4f4;
-      color: #111;
+    body {
+      background: #e9fdf6;
+      color: #000;
+      transition: background 0.3s;
     }
     .container {
-      max-width: 400px;
-      margin: 10vh auto;
-      padding: 2rem;
-      background-color: #161b22;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #0005;
+      max-width: 430px;
+      margin: auto;
+      padding: 20px;
     }
-    .light-mode .container {
-      background-color: #fff;
+    .header {
+      background: #e3fff3;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      margin-bottom: 20px;
     }
-    input, button {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 1rem 0;
-      font-size: 1rem;
-      border: none;
-      border-radius: 5px;
+    .header h2 {
+      font-size: 16px;
+      margin-bottom: 4px;
     }
-    input {
-      background-color: #21262d;
-      color: #c9d1d9;
+    .header small {
+      color: gray;
     }
-    .light-mode input {
-      background-color: #eee;
-      color: #000;
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .top-bar div {
+      font-weight: 600;
+    }
+    .wallet-box {
+      background: #10d8a1;
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      margin-bottom: 16px;
+    }
+    .wallet-box .balance-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
     }
     button {
-      background-color: #2ea043;
-      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
       cursor: pointer;
     }
-    #dashboard {
-      display: none;
+    .btn-light {
+      background: #fff;
+      color: #000;
     }
-    .toggle-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      color: inherit;
-      border: 1px solid currentColor;
-      padding: 4px 8px;
-      cursor: pointer;
-      border-radius: 5px;
+    .btn-dark {
+      background: #000;
+      color: #fff;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+    .bottom-nav div {
+      text-align: center;
+    }
+    .dark-mode body {
+      background: #111;
+      color: #eee;
+    }
+    .dark-mode .wallet-box {
+      background: #0f7259;
+    }
+    .dark-mode .stat-box {
+      background: #222;
+    }
+    .dark-mode .bottom-nav {
+      background: #111;
     }
   </style>
 </head>
 <body>
-
-<button class="toggle-btn" onclick="toggleMode()">☀️/🌙</button>
-
-<div class="container" id="password-screen">
-  <h2>🔐 Enter Access Code</h2>
-  <input type="password" id="passcode" placeholder="Enter 4-digit code" maxlength="4" />
-  <button onclick="checkPassword()">Unlock</button>
-</div>
-
-<div class="container" id="recovery-screen" style="display:none;">
-  <h2>🛠 Recovery Portal</h2>
-  <input type="email" id="email" placeholder="Enter victim email" />
-  <button onclick="startRecovery()">Recover</button>
-</div>
-
-<div class="container" id="loading-screen" style="display:none;">
-  <h2>🔄 Connecting to blockchain...</h2>
-</div>
-
-<div class="container" id="dashboard">
-  <h2>✅ Access Granted</h2>
-  <p><strong>Wallet Balance:</strong> <span style="color:lime;">$12,000</span></p>
-  <p>🔍 Scam Site Access: <span style="color:orange;">limebike9.com</span></p>
-  <p>📥 Recovery in Progress...</p>
-  <ul>
-    <li>🧰 Tracing deposits...</li>
-    <li>💻 Cracking backend auth...</li>
-    <li>🛡 Smart contract analysis...</li>
-    <li>📤 Preparing refund routes...</li>
-  </ul>
-</div>
-
-<script>
-  function checkPassword() {
-    const code = document.getElementById('passcode').value;
-    if (code === '9260') {
-      document.getElementById('password-screen').style.display = 'none';
-      document.getElementById('recovery-screen').style.display = 'block';
-    } else {
-      alert('Incorrect passcode');
+  <div class="container">
+    <div class="top-bar">
+      <div>limebike9.com</div>
+      <button onclick="toggleMode()">Toggle Mode</button>
+    </div>
+    <div class="header">
+      <h2>Giselle2k15@gmail.com</h2>
+      <small>Invitation code: 2441283</small>
+    </div>
+    <div class="wallet-box">
+      <div class="balance-row">
+        <div>
+          <div>USD7250.70</div>
+          <small>Income</small>
+        </div>
+        <div>
+          <div>USD4.43</div>
+          <small>Funds</small>
+        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn-light">top up</button>
+        <button class="btn-dark">withdraw</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat-box">
+        <div>0</div>
+        <small>Today's earnings</small>
+      </div>
+      <div class="stat-box">
+        <div>0</div>
+        <small>Earnings this month</small>
+      </div>
+      <div class="stat-box">
+        <div>0</div>
+        <small>Revenue last month</small>
+      </div>
+      <div class="stat-box">
+        <div>16542.39</div>
+        <small>Total revenue</small>
+      </div>
+    </div>
+    <div class="button-row">
+      <button class="btn-light" style="width: 48%;">Invest for others</button>
+      <button class="btn-dark" style="width: 48%;">Wheel of Fortune</button>
+    </div>
+    <br /><br />
+  </div>  <div class="bottom-nav">
+    <div>🏠</div>
+    <div>📋</div>
+    <div>✅</div>
+    <div>🛠️</div>
+    <div>📍</div>
+  </div>  <script>
+    function toggleMode() {
+      document.body.classList.toggle('dark-mode');
     }
-  }
-
-  function startRecovery() {
-    const email = document.getElementById('email').value;
-    if (!email.includes('@')) {
-      alert('Enter a valid email');
-      return;
-    }
-
-    document.getElementById('recovery-screen').style.display = 'none';
-    document.getElementById('loading-screen').style.display = 'block';
-
-    // Simulate loading for 4 seconds
-    setTimeout(() => {
-      document.getElementById('loading-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-    }, 4000);
-  }
-
-  function toggleMode() {
-    document.body.classList.toggle('light-mode');
-  }
-</script>
-
-</body>
+  </script></body>
 </html>
